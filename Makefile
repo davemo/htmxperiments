@@ -55,4 +55,4 @@ db-seed:
 	@echo "Seeded database.db"
 
 dev:
-	@air
+	air -c .air.toml & pnpm css:watch

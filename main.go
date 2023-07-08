@@ -127,6 +127,7 @@ func main() {
 	handlebars.RegisterHelper("formatDateRelative", formatDateRelative)
 	handlebars.RegisterHelper("currency", currency)
 
+	r.PathPrefix("/dist/").Handler(http.StripPrefix("/dist/", http.FileServer(http.Dir("dist/"))))
 	r.HandleFunc("/", app.index)
 	r.Use(loggingMiddleware)
 

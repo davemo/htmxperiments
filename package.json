@@ -1,0 +1,15 @@
+{
+  "name": "htmxperiments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "css:watch": "tailwindcss -i ./css/tailwind.css -o ./dist/out.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tailwindcss": "^3.3.2"
+  }
+}
