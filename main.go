@@ -115,6 +115,29 @@ func (app *App) index(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(content))
 }
 
+func (app *App) search(w http.ResponseWriter, r *http.Request) {
+	query := r.FormValue("q")
+	var securities []Security
+	result := app.DB.Where("name LIKE ?", "%"+query+"%").Find(&securities)
+	if result.Error != nil {
+		log.Println(result.Error)
+	}
+	ctx := make(map[string]interface{})
+	debug, err := json.MarshalIndent(securities, "", " ")
+	if err != nil {
+		panic(err.Error())
+	}
+	ctx["securities"] = securities
+	ctx["debug"] = string(debug)
+
+	content, err := handlebars.Render(loadTemplateFile("index.html"), ctx)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	w.Write([]byte(content))
+}
+
 func main() {
 	db, err := gorm.Open(sqlite.Open("database.db"), &gorm.Config{})
 	if err != nil {
@@ -128,6 +151,7 @@ func main() {
 	handlebars.RegisterHelper("currency", currency)
 
 	r.PathPrefix("/dist/").Handler(http.StripPrefix("/dist/", http.FileServer(http.Dir("dist/"))))
+	r.HandleFunc("/search", app.search)
 	r.HandleFunc("/", app.index)
 	r.Use(loggingMiddleware)
 
