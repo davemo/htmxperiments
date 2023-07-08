@@ -10,17 +10,26 @@
     crossorigin="anonymous"></script>
   <script src="//unpkg.com/hyperscript.org@0.9.9"></script>
   <link rel="stylesheet" href="/dist/out.css">
+  <script type="text/hyperscript">
+    init
+      set $paletteOpen to false
+  </script>
 </head>
 
 <body class="h-full bg-cover bg-center"
   style="background-image: url('https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3000&h=2000&q=90');">
 
-  <div class="relative z-10 opacity-0 ease-in-out duration-300" role="dialog" aria-modal="true" _="
+  <div class="relative z-10 opacity-0 ease-in-out duration-300" role="dialog" aria-modal="true" data-script="
   on keydown[key is 'k' and metaKey] from body
     toggle .opacity-0 on me
     toggle .opacity-0 .scale-95 .scale-100 on #palette
     call #searchbox.focus()
     set #searchbox's value to ''
+    if $paletteOpen
+      set $paletteOpen to false
+    else
+      set $paletteOpen to true
+    log 'paletteOpen', $paletteOpen
   ">
 
     <div class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity"></div>
@@ -38,10 +47,10 @@
           </svg>
           <input id="searchbox" type="text"
             class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-white focus:ring-0 sm:text-sm"
-            placeholder="Search..." _="
-      on keyup[key is 'Enter']
-        log 'search enter key pressed'
-    ">
+            placeholder="Search..." data-script="
+              on keyup[key is 'Enter']
+                log 'search enter key pressed'
+          ">
         </div>
 
         <!-- Default state, show/hide based on command palette state. -->
@@ -114,7 +123,7 @@
         </ul>
 
         <!-- Results, show/hide based on command palette state. -->
-        <ul class="max-h-96 overflow-y-auto p-2 text-sm text-gray-400">
+        <ul class="max-h-96 overflow-y-auto p-2 text-sm text-gray-400 hidden">
           <!-- Active: "bg-gray-800 text-white" -->
           <li class="group flex cursor-default select-none items-center rounded-md px-3 py-2">
             <!-- Active: "text-white", Not Active: "text-gray-500" -->
@@ -130,7 +139,7 @@
         </ul>
 
         <!-- Empty state, show/hide based on command palette state. -->
-        <div class="px-6 py-14 text-center sm:px-14">
+        <div class="px-6 py-14 text-center sm:px-14 hidden">
           <svg class="mx-auto h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round"
