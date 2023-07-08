@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTMXperiments</title>
+</head>
+<body>
+
+  <h1>
+    Hello HTMX
+  </h1>
+
+  <pre>{{debug}}</pre>
+
+  <table>
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>user_id</th>
+        <th>amount</th>
+        <th>type</th>
+        <th>price</th>
+        <th>created_at</th>
+        <th>updated_at</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each securities}}
+        <tr>
+          <td>{{ID}}</td>
+          <td>{{Name}}</td>
+          <td>{{UserID}}</td>
+          <td>{{Amount}}</td>
+          <td>{{Type}}</td>
+          <td>{{currency Price}}</td>
+          <td>{{formatDateRelative CreatedAt}}</td>
+          <td>{{formatDateRelative UpdatedAt}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</body>
+</html>

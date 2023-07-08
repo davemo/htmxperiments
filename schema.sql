@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS users (
     password TEXT,
     email TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL
 );
 
 -- Create securities table
@@ -18,6 +19,7 @@ CREATE TABLE IF NOT EXISTS securities (
     price DECIMAL(10, 2),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
@@ -30,5 +32,6 @@ CREATE TABLE IF NOT EXISTS exercise_requests (
     status TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL,
     FOREIGN KEY (security_id) REFERENCES securities(id)
 );
