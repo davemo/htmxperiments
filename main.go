@@ -19,36 +19,36 @@ import (
 var templates embed.FS
 
 type User struct {
-    gorm.Model
-    Username  string
-    Password  string
-    Email     string
-    CreatedAt time.Time
-    UpdatedAt time.Time
-		DeletedAt time.Time
+	gorm.Model
+	Username  string
+	Password  string
+	Email     string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt time.Time
 }
 
 type Security struct {
-    gorm.Model
-    Name      string
-    UserID    uint
-    Amount    int
-    Type      string
-    Price     float64
-    CreatedAt time.Time
-    UpdatedAt time.Time
-		DeletedAt time.Time
+	gorm.Model
+	Name      string
+	UserID    uint
+	Amount    int
+	Type      string
+	Price     float64
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt time.Time
 }
 
 type ExerciseRequest struct {
-    gorm.Model
-    SecurityID   uint
-    Amount       int
-    ExerciseDate time.Time
-    Status       string
-    CreatedAt    time.Time
-    UpdatedAt    time.Time
-		DeletedAt time.Time
+	gorm.Model
+	SecurityID   uint
+	Amount       int
+	ExerciseDate time.Time
+	Status       string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	DeletedAt    time.Time
 }
 
 type App struct {
@@ -100,7 +100,7 @@ func (app *App) index(w http.ResponseWriter, r *http.Request) {
 		log.Println(result.Error)
 	}
 	ctx := make(map[string]interface{})
-	debug, err := json.Marshal(securities)
+	debug, err := json.MarshalIndent(securities, "", " ")
 	if err != nil {
 		panic(err.Error())
 	}
