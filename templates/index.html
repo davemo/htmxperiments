@@ -17,9 +17,18 @@
 </head>
 
 <body class="h-full bg-cover bg-center"
-  style="background-image: url('https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3000&h=2000&q=90');">
+  style="background-image: url('https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3000&h=2000&q=90');"
+  data-script="
+  on keydown[key is 'Escape']
+    if $paletteOpen
+      set $paletteOpen to false
+      toggle .opacity-0 .scale-95 .scale-100 on #palette
+      toggle .opacity-0 on #command-palette
+    log 'paletteOpen', $paletteOpen
+  ">
 
-  <div class="relative z-10 opacity-0 ease-in-out duration-300" role="dialog" aria-modal="true" data-script="
+  <div id="command-palette" class="relative z-10 opacity-0 ease-in-out duration-300" role="dialog" aria-modal="true"
+    data-script="
   on keydown[key is 'k' and metaKey] from body
     toggle .opacity-0 on me
     toggle .opacity-0 .scale-95 .scale-100 on #palette
