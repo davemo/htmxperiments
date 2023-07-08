@@ -1,6 +1,6 @@
 .PHONY: db-create db-reset db-migrate db-rollback db-migrate-create dev dev-setup
 
-setup: install-dependencies db-create db-migrate
+setup: install-dependencies db-reset
 
 install-dependencies:
 	go install github.com/cosmtrek/air@latest
@@ -27,6 +27,7 @@ db-reset: db-create
 		sqlite3 database.db ".exit"; \
 		rm -f database.db; \
 		make db-create; \
+		make db-seed; \
 		make db-migrate; \
 	else \
 		echo "Database does not exist"; \
@@ -46,8 +47,12 @@ db-migrate-create:
 dev-setup:
 	@go mod download
 
-dev:
-	@air
-
 db-shell:
 	@sqlite3 database.db
+
+db-seed:
+	@sqlite3 database.db < seed.sql
+	@echo "Seeded database.db"
+
+dev:
+	@air
