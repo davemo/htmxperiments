@@ -20,11 +20,10 @@
   style="background-image: url('https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3000&h=2000&q=90');"
   data-script="
   on keydown[key is 'Escape']
-    if $paletteOpen
+    if event's target is not #command-palette and $paletteOpen
       set $paletteOpen to false
       toggle .opacity-0 .scale-95 .scale-100 on #palette
       toggle .opacity-0 on #command-palette
-    log 'paletteOpen', $paletteOpen
   ">
 
   <div id="command-palette" class="relative z-10 opacity-0 ease-in-out duration-300" role="dialog" aria-modal="true"
@@ -38,7 +37,6 @@
       set $paletteOpen to false
     else
       set $paletteOpen to true
-    log 'paletteOpen', $paletteOpen
   ">
 
     <div class="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity"></div>
@@ -56,12 +54,17 @@
           </svg>
           <input id="searchbox" type="text" name="q"
             class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-white focus:ring-0 sm:text-sm"
-            placeholder="Search..." hx-get="/search" hx-trigger="keyup delay:500ms from:#searchbox"
-            hx-target="#search-results" hx-swap="innerHTML">
+            placeholder="Search..." hx-get="/search" hx-target="#search-results" hx-swap="innerHTML"
+            hx-trigger="keyup changed delay:500ms" data-script="
+              on keyup[key is not metaKey] from me
+                if me's value is not ''
+                  remove .hidden from #search-results
+                  log 'keyup', me's value
+            ">
         </div>
 
         <!-- Results, show/hide based on command palette state. -->
-        <ul id="search-results" class="max-h-96 overflow-y-auto p-2 text-sm text-gray-400">
+        <ul id="search-results" class="max-h-96 overflow-y-auto p-2 text-sm text-gray-400 hidden">
           <!-- Active: "bg-gray-800 text-white" -->
           <li class="group flex cursor-default select-none items-center rounded-md px-3 py-2">
             <!-- Active: "text-white", Not Active: "text-gray-500" -->
